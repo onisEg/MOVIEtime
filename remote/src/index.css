@@ -1,0 +1,30 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat+Alternates:wght@400;700&display=swap');
+
+
+
+:root{
+  --bg-main: #0E121E;
+  --font-color: white;
+  
+}
+
+body{
+  background-color: var(--bg-main);
+  font-family: 'Montserrat', sans-serif;
+  color: var(--font-color);
+}
+
+nav{
+  text-transform: capitalize;
+}
+.navbar-brand{
+  font-weight: 900;
+  font-style: italic;
+  font-size: 30px;
+  
+}
+
+li, i{
+  cursor: pointer;
+}
+
