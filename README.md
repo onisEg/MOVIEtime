@@ -1,19 +1,43 @@
 
 
-1. Title
-# MOVIEtime
 
-2. Introduction
-وإنت هنا بتكتب نبذه عن المشروع بيعمل إيه بتبقي في حدود من سطرين إلي ٣ اسطر
+## MOVIEtime
 
-3. Technologies
-وهنا إنت بتكتب إيه التكنولوجيا المستخدمه في المشروع مثلا مستخدم nodejs, sequlizer أو springboot, hibernate وخلافة وياريت تكتب ال version الخاصه بكل technology
+### Introduction
 
-4. Features
-وهنا بتكتب كل ال features إللي المشروع بيقدمها سواء حاليا أو في ال next releases أو إللي بتطمح إنك تعملها مستقبلا
+this testing project i worked on , this is react app in the first user have to make account then login , show home and links authors , movies and series 
 
-5. Setup
-وهنا إنت بتشرح خطوات تشغيل المشروع بدايه من ال libraries إللي محتاج تنزلها وال commands إللي محتاج تعملها run وكمان ال db scripts إللي محتاج تعمل لها run عشان المشروع كله يشتغل
+### Technologies
+
+* nodejs
+* bootstrap
+* axios
+* joi
+
+### Features 
+- registration 
+- login 
+- Authentication 
+
+
+### Built With
+
+* Html
+* css
+* React.js
+
+
+
+### Setup
+
+- Clone the repo
+   ```sh
+   git clone https://github.com/onisEg/MOVIEtime.git
+   ```
+- Install NPM packages
+   ```sh
+   npm install
+   ```
 
 this React.js app 
 
