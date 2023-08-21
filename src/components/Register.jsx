@@ -51,7 +51,7 @@ export default function Register() {
     } else {
       
         let { data } = await axios.post(
-          "https://www.anaseg.com/api/wp-json/myplugin/v1/register",
+          "https://aqarzone.com/anas/wp-json/myplugin/v1/login",
           user
         );
         console.log(data.message );

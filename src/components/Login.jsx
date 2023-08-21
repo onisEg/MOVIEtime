@@ -38,7 +38,7 @@ export default function Login(props) {
       setLoading(false);
     } else {
       let { data } = await axios.post(
-        "https://www.anaseg.com/api/wp-json/myplugin/v1/login",
+        "https://aqarzone.com/anas/wp-json/myplugin/v1/login",
         user
       );
       if (data.status === "success") {
