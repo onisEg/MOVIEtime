@@ -1,4 +1,9 @@
 # Getting Started with Create React App
+![image](https://github.com/onisEg/MOVIEtime/assets/35266228/c3559770-d414-45e2-95ba-42fe08995f98)
+
+![image](https://github.com/onisEg/MOVIEtime/assets/35266228/b8250428-f2c7-4b77-987c-b7a56b97b12b)
+
+![image](https://github.com/onisEg/MOVIEtime/assets/35266228/b79f466a-7a34-4705-8dd0-a73e646e3a5f)
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
