@@ -1,6 +1,6 @@
 import "../css/Register&Login.css";
 import React, { useState } from "react";
-import axios from "axios";
+import { login, DEMO_USER } from "../services/auth";
 import { useNavigate } from "react-router-dom";
 import Joi from "joi";
 
@@ -32,21 +32,23 @@ export default function Login(props) {
   async function submitRegisterForm(e) {
     e.preventDefault();
     setLoading(true);
+    setError("");
+    setErrorList([]);
     let validationResult = validation();
     if (validationResult.error) {
       setErrorList(validationResult.error.details);
       setLoading(false);
     } else {
-      let { data } = await axios.post(
-        "https://aqarzone.com/anas/wp-json/myplugin/v1/login",
-        user
-      );
-      if (data.status === "success") {
-        navigate("/home");
-        localStorage.setItem("userToken", data.user_id);
-        props.saveUserData()
-      } else {
-        setError(data.message);
+      try {
+        const data = await login(user);
+        if (data.status === "success") {
+          props.saveUserData();
+          navigate("/home");
+        } else {
+          setError(data.message);
+        }
+      } catch {
+        setError("Something went wrong. Please try again.");
       }
       setLoading(false);
     }
@@ -59,6 +61,10 @@ export default function Login(props) {
             <div className="container py-5">
               <div>
                 <h2 className=" pb-3">Login to your account</h2>
+                <p className="small text-muted">
+                  Demo account: <strong>{DEMO_USER.username}</strong> /{" "}
+                  <strong>{DEMO_USER.password}</strong>
+                </p>
 
                 {errorList.map((error, i) => (
                   <div key={i} className="alert alert-warning">
@@ -81,6 +87,7 @@ export default function Login(props) {
                       className="form-control bg-transparent"
                       placeholder="Username"
                       name="username"
+                      autoComplete="username"
                     />
                   </div>
 
@@ -94,6 +101,7 @@ export default function Login(props) {
                       className="form-control bg-transparent"
                       placeholder="**********"
                       name="password"
+                      autoComplete="current-password"
                     />
                   </div>
 
