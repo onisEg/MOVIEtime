@@ -1,7 +1,7 @@
 
 import "../css/Register&Login.css";
 import React, { useState } from "react";
-import axios  from 'axios';
+import { register } from "../services/auth";
 import { useNavigate } from 'react-router-dom';
 import  Joi  from 'joi';
 
@@ -25,7 +25,8 @@ export default function Register() {
 
   function getUserData(e){
     let myUser = { ...user }
-    myUser[e.target.name] = e.target.value;
+    myUser[e.target.name] =
+      e.target.name === "age" ? Number(e.target.value) : e.target.value;
     setUser(myUser);
   }
   function validation() {
@@ -44,22 +45,23 @@ export default function Register() {
   async function sumbitRegistreForm(e) {
     e.preventDefault();  
     setLoading(true)
+    setError('')
+    setErrorList([])
     let validationResult = validation();
     if (validationResult.error) {
       setErrorList(validationResult.error.details);
       setLoading(false)
     } else {
       
-        let { data } = await axios.post(
-          "https://aqarzone.com/anas/wp-json/myplugin/v1/login",
-          user
-        );
-        console.log(data.message );
+      try {
+        const data = await register(user);
         if (data.status === "success") {
-          navigate('/login')
-          localStorage.setItem("userToken", data.user_id);
+          navigate("/login");
         } else {
-          setError(data.message)
+          setError(data.message);
+        }
+      } catch {
+        setError("Something went wrong. Please try again.");
       }
       setLoading(false)
     }
