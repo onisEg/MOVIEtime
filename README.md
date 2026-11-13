@@ -1,80 +1,82 @@
-# Getting Started with Create React App
+# 🎬 MOVIEtime
 
-#### username: anas
-#### password: anasabdo
+A React movie-browsing app that pulls its data from The Movie Database (TMDB) and puts the catalog behind a simple account system. Browse popular titles, open a details page for any movie, and page through the results.
 
+**Live demo:** https://movi-etime.vercel.app
 
-![image](https://github.com/onisEg/MOVIEtime/assets/35266228/c3559770-d414-45e2-95ba-42fe08995f98)
+> Heads up: the sign-in service this app used to call is currently offline, so logging in on the live demo doesn't work at the moment. See [Known issues](#known-issues--roadmap).
 
-![image](https://github.com/onisEg/MOVIEtime/assets/35266228/b8250428-f2c7-4b77-987c-b7a56b97b12b)
+![MOVIEtime screenshot](https://github.com/onisEg/MOVIEtime/assets/35266228/c3559770-d414-45e2-95ba-42fe08995f98)
+![MOVIEtime screenshot](https://github.com/onisEg/MOVIEtime/assets/35266228/b8250428-f2c7-4b77-987c-b7a56b97b12b)
+![MOVIEtime screenshot](https://github.com/onisEg/MOVIEtime/assets/35266228/b79f466a-7a34-4705-8dd0-a73e646e3a5f)
 
-![image](https://github.com/onisEg/MOVIEtime/assets/35266228/b79f466a-7a34-4705-8dd0-a73e646e3a5f)
+## What it does
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+- Browse popular movies, pulled live from TMDB (`/discover/movie`, sorted by popularity)
+- Open a details page for any movie at `/moviedetalis/:id`
+- Page through results with a numbered pager
+- Register and log in — the session token is stored in `localStorage` and the inner pages sit behind protected routes
+- Collections, TV, and Author sections exist as routes (TV and Author are still minimal placeholders)
 
-## Available Scripts
+## Built with
 
-In the project directory, you can run:
+- React 18 (Create React App) + React Router v6
+- Axios for API requests
+- Bootstrap 5 and Font Awesome for the UI
+- Joi for form validation
+- The Movie Database (TMDB) REST API for all movie data
 
-### `npm start`
+## Running it locally
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+```bash
+git clone https://github.com/onisEg/MOVIEtime.git
+cd MOVIEtime
+npm install
+npm start
+```
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+Then open http://localhost:3000.
 
-### `npm test`
+### Scripts
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- `npm start` — run in development mode
+- `npm run build` — create a production build in `build/`
+- `npm test` — run the test runner
 
-### `npm run build`
+## Project structure
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```
+src/
+  App.jsx              # routes + the auth gate (ProtectedRoute)
+  components/
+    Navbar.jsx  Footer.jsx
+    Home.jsx  Movies.jsx  MovieDetalis.jsx
+    Collections.jsx  Tv.jsx  Author.jsx
+    Login.jsx  Register.jsx   # Joi-validated forms
+    Notfound.jsx
+  css/   imgs/
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Configuration
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+The TMDB API key is currently hardcoded inside the components, and the auth endpoint is a fixed URL. Both should move into a `.env` file so they aren't committed to the repo:
 
-### `npm run eject`
+```
+REACT_APP_TMDB_KEY=your_tmdb_key_here
+REACT_APP_AUTH_URL=your_auth_endpoint_here
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+(See the issues below — this is on the to-do list.)
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Known issues / roadmap
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+These are tracked in the repo's **Issues** tab:
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+- **Login is down** — the sign-in request used to hit an external WordPress endpoint that now returns 404, so no one can log in. Because every inner page is protected, logged-out visitors land on a blank page. The simplest fix for the demo is a local/mock login.
+- **`ProtectedRoute` doesn't redirect** logged-out users to `/login` (the redirect line is commented out), which is why they see a blank page instead of the login screen.
+- **TMDB API key is committed** in the source and should move to an environment variable.
+- **Pagination is hardcoded to 13 pages**, and Prev/Next can run past the real range.
 
-## Learn More
+## Author
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Built by [Anas Alnagar](https://github.com/onisEg) — front-end developer. One of my React learning projects.
