@@ -41,7 +41,7 @@ export default function Navbar(props) {
                   </li>
                   <li className="nav-item">
                     <Link className="nav-link" to="author">
-                      author
+                      people
                     </Link>
                   </li>
                   <li className="nav-item">
@@ -64,9 +64,9 @@ export default function Navbar(props) {
               </li>
               {props.userData ? (
                 <li className="nav-item">
-                  <span onClick={props.logOut} className="nav-link">
+                  <button type="button" onClick={props.logOut} className="nav-link btn btn-link">
                     logout
-                  </span>
+                  </button>
                 </li>
               ) : (
                 <>

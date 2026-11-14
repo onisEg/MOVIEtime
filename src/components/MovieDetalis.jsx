@@ -1,68 +1,64 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import axios from "axios";
-import { useEffect, useState } from "react";
+import { getMovie, IMG_BASE } from "../api/tmdb";
+import { Spinner, ErrorMessage } from "./MediaGrid";
 import "../css/Home.css";
 import img1 from "../imgs/IMDB-icon.png";
 
 export default function MovieDetalis() {
-  let params = useParams();
-  const [movieDetalis, SetMovieDetalis] = useState({});
+  const { id } = useParams();
+  const [movie, setMovie] = useState(null);
+  const [error, setError] = useState(false);
 
-  async function getMovieDetails(id) {
-    let { data } = await axios.get(
-      `https://api.themoviedb.org/3/movie/${id}?api_key=f1aca93e54807386df3f6972a5c33b50&language=en-US`
-    );
-    SetMovieDetalis(data);
-  }
-
+  // Runs only when the id changes (before, it ran after every render
+  // and kept sending requests to the API in a loop).
   useEffect(() => {
-    getMovieDetails(params.id);
-  });
+    let cancelled = false;
+    setMovie(null);
+    setError(false);
+    getMovie(id)
+      .then((data) => !cancelled && setMovie(data))
+      .catch(() => !cancelled && setError(true));
+    return () => {
+      cancelled = true;
+    };
+  }, [id]);
+
+  if (error) return <ErrorMessage text="Couldn't load this movie." />;
+  if (!movie) return <Spinner />;
+
+  const genres = movie.genres?.map((g) => g.name).join(", ");
 
   return (
-    <>
-      {movieDetalis ?
-        <div className="row home">
-          <div className="col-md-6  ">
-            <div className="mov-info d-flex flex-column align-items-start justify-content-center height">
-              <div className="fw-normal Category">
-                <span>
-                  <img src={img1} alt="imdb" />
-                </span>
-                <span>{movieDetalis.vote_average?.toFixed(1)}</span>
-                <span className="">
-                  {movieDetalis.release_date?.slice(0, 4)} - Drama -
-                  {movieDetalis.runtime} Min
-                </span>
-              </div>
-              <div className="title pt-2">
-                <h2 className="">{movieDetalis.title}</h2>
-              </div>
-              <div className="dic text-muted">
-                <p>{movieDetalis.overview}</p>
-              </div>
-            </div>
+    <div className="row home py-4">
+      <div className="col-md-6 order-2 order-md-1">
+        <div className="mov-info d-flex flex-column align-items-start justify-content-center h-100">
+          <div className="fw-normal Category">
+            <span>
+              <img src={img1} alt="IMDb" />
+            </span>
+            <span>{movie.vote_average?.toFixed(1)}</span>
+            <span>
+              {[movie.release_date?.slice(0, 4), genres, movie.runtime && `${movie.runtime} min`]
+                .filter(Boolean)
+                .join(" · ")}
+            </span>
           </div>
-          <div className="col-md-6 d-flex align-items-center ">
-            <div className="">
-              <div className="moiveDetalisImg mx-auto">
-                <img
-                  className="w-100"
-                  src={
-                    `https://image.tmdb.org/t/p/w500` + movieDetalis.poster_path
-                  }
-                  alt=""
-                />
-              </div>
-            </div>
+          <div className="title pt-2">
+            <h2>{movie.title}</h2>
           </div>
-        </div>:        <div className="vh-100 d-flex align-items-center justify-content-center">
-          <i className="fas fa-spinner fa-5x fa-spin"></i>
+          <div className="dic text-muted">
+            <p>{movie.overview}</p>
+          </div>
         </div>
-      
-    }
-
-    </>
+      </div>
+      <div className="col-md-6 order-1 order-md-2 d-flex align-items-center mb-4 mb-md-0">
+        <div className="moiveDetalisImg mx-auto" style={{ maxWidth: 360 }}>
+          {movie.poster_path && (
+            <img className="w-100 rounded" src={IMG_BASE + movie.poster_path} alt={movie.title} />
+          )}
+        </div>
+      </div>
+    </div>
   );
 }
