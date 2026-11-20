@@ -2,19 +2,25 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import {  HashRouter } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap/dist/js/bootstrap.bundle.min.js'
 import 'jquery/dist/jquery'
 import '@fortawesome/fontawesome-free/css/all.min.css'
 import './index.css';
 
+// Keep bookmarks created by the previous hash router working.
+if (window.location.pathname === '/' && window.location.hash.startsWith('#/')) {
+  const path = window.location.hash.slice(1);
+  window.history.replaceState(window.history.state, '', window.location.origin + path);
+}
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <HashRouter>
+    <BrowserRouter>
       <App /> 
-    </HashRouter>
+    </BrowserRouter>
   </React.StrictMode>
 );
 
