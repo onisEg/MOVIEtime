@@ -9,21 +9,20 @@ import Tv from "./components/Tv";
 import Login from "./components/Login";
 import Register from "./components/Register";
 import Notfound from "./components/Notfound";
-import { useState } from "react";
 import MovieDetalis from "./components/MovieDetalis";
 import Movies from "./components/Movies";
-import { getToken, logout } from "./services/auth";
+import { getToken, isGuest, logout } from "./services/auth";
 
 // Defined outside App so it isn't re-created on every render
-function ProtectedRoute({ children }) {
-  return getToken() ? children : <Navigate to="/login" replace />;
+function BrowseRoute({ children }) {
+  return getToken() || isGuest() ? children : <Navigate to="/login" replace />;
 }
 
 function GuestRoute({ children }) {
   return getToken() ? <Navigate to="/home" replace /> : children;
 }
 
-const protectedPages = [
+const browsePages = [
   { path: "/", element: <Home /> },
   { path: "home", element: <Home /> },
   { path: "collections", element: <Collections /> },
@@ -35,35 +34,31 @@ const protectedPages = [
 
 function App() {
   const navigate = useNavigate();
-  const [userData, setUserData] = useState(getToken());
-
-  function saveUserData() {
-    setUserData(getToken());
-  }
+  const signedIn = Boolean(getToken());
+  const guest = !signedIn && isGuest();
 
   function logOut() {
     logout();
-    setUserData(null);
     navigate("/login");
   }
 
   return (
     <div className="container-fluid">
-      <Navbar logOut={logOut} userData={userData} />
+      <Navbar logOut={logOut} canBrowse={signedIn || guest} guest={guest} />
       <div className="container pb-5">
         <Routes>
-          {protectedPages.map(({ path, element }) => (
+          {browsePages.map(({ path, element }) => (
             <Route
               key={path}
               path={path}
-              element={<ProtectedRoute>{element}</ProtectedRoute>}
+              element={<BrowseRoute>{element}</BrowseRoute>}
             />
           ))}
           <Route
             path="login"
             element={
               <GuestRoute>
-                <Login saveUserData={saveUserData} />
+                <Login />
               </GuestRoute>
             }
           />
