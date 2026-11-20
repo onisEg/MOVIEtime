@@ -10,7 +10,7 @@ A movie discovery app built with **React** and the **TMDB API**. Browse trending
 
 ## Try it
 
-Open the app to browse popular movies. Use Login or Register in the header for an optional account. Demo credentials:
+Open the app to see the featured trending movie. Select Movies to browse the catalog. Use Login or Register in the header for an optional account. Demo credentials:
 
 | Username | Password |
 |---|---|
