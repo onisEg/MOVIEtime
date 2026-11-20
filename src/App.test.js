@@ -3,6 +3,7 @@ import { MemoryRouter } from "react-router-dom";
 import App from "./App";
 
 jest.mock("./api/tmdb", () => ({
+  getMovie: async (id) => ({ id, title: "Direct movie" }),
   discover: async () => ({ results: [{ id: 12, title: "Example movie" }], total_pages: 1 }),
 }));
 
@@ -14,4 +15,15 @@ test("visitors see the catalog immediately and can open either account form", as
   expect(screen.getByRole("heading", { name: /login/i })).toBeVisible();
   fireEvent.click(screen.getByRole("link", { name: "Register" }));
   expect(screen.getByRole("button", { name: /sign up/i })).toBeVisible();
+});
+
+test("a visitor can open and reload a direct movie link", async () => {
+  const directLink = () => render(
+    <MemoryRouter initialEntries={["/moviedetalis/12"]}><App /></MemoryRouter>
+  );
+  const firstVisit = directLink();
+  expect(await screen.findByRole("heading", { name: "Direct movie" })).toBeVisible();
+  firstVisit.unmount();
+  directLink();
+  expect(await screen.findByRole("heading", { name: "Direct movie" })).toBeVisible();
 });
