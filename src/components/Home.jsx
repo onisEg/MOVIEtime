@@ -9,15 +9,33 @@ import { Spinner } from "./MediaGrid";
 export default function Home() {
   const [movie, setMovie] = useState(null);
 
+  const [attempt, setAttempt] = useState(0);
+
   useEffect(() => {
+    let active = true;
     getTrending("movie")
-      .then((results) => setMovie(results[0]))
-      .catch(() => setMovie(false));
-  }, []);
+      .then((results) => {
+        if (active) setMovie(results?.[0] || false);
+      })
+      .catch(() => {
+        if (active) setMovie(false);
+      });
+    return () => { active = false; };
+  }, [attempt]);
 
   if (movie === null) return <Spinner />;
   if (movie === false)
-    return <p className="py-5 text-muted">Couldn't load trending movies.</p>;
+    return (
+      <section className="py-5">
+        <h2>Trending movies</h2>
+        <p role="status">Trending movies are currently unavailable.</p>
+        <button type="button" className="btn btn-outline-light me-3" onClick={() => {
+          setMovie(null);
+          setAttempt(value => value + 1);
+        }}>Try again</button>
+        <Link to="/movies">Browse movies</Link>
+      </section>
+    );
 
   return (
     <div className="row home py-4">

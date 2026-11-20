@@ -13,7 +13,7 @@ const tmdb = axios.create({
 });
 
 export async function getTrending(mediaType, timeWindow = "week") {
-  const { data } = await tmdb.get(`/trending/${mediaType}/${timeWindow}`);
+  const { data } = await tmdb.get(`/trending/${mediaType}/${timeWindow}`, { timeout: 12000 });
   return data.results;
 }
 
