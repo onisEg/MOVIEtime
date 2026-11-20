@@ -3,12 +3,16 @@ import { MemoryRouter } from "react-router-dom";
 import App from "./App";
 
 jest.mock("./api/tmdb", () => ({
+  getTrending: async () => [{ id: 8, title: "Featured movie" }],
   getMovie: async (id) => ({ id, title: "Direct movie" }),
   discover: async () => ({ results: [{ id: 12, title: "Example movie" }], total_pages: 1 }),
 }));
 
-test("visitors see the catalog immediately and can open either account form", async () => {
+test("visitors land on Home and can open Movies and either account form", async () => {
   render(<MemoryRouter><App /></MemoryRouter>);
+  expect(await screen.findByRole("heading", { name: "Featured movie" })).toBeVisible();
+  expect(screen.getByRole("link", { name: "View details" })).toHaveAttribute("href", "/moviedetalis/8");
+  fireEvent.click(screen.getByRole("link", { name: "Movies" }));
   expect(await screen.findByRole("heading", { name: "Example movie" })).toBeVisible();
   expect(screen.getByRole("link", { name: /Example movie/ })).toHaveAttribute("href", "/moviedetalis/12");
   fireEvent.click(screen.getByRole("link", { name: "Login" }));
