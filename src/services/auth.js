@@ -4,6 +4,7 @@
 // as a portfolio demo; a real app would use a backend (Firebase, Supabase…).
 
 const USERS_KEY = "movietime_users";
+const GUEST_KEY = "movietime_guest";
 const TOKEN_KEY = "userToken";
 
 export const DEMO_USER = { username: "demo", password: "demo123" };
@@ -69,10 +70,20 @@ export async function login({ username, password }) {
   }
   localStorage.setItem(TOKEN_KEY, crypto.randomUUID());
   localStorage.setItem("movietime_current_user", user.username);
+  sessionStorage.removeItem(GUEST_KEY);
   return { status: "success", username: user.username };
 }
 
+export function enterAsGuest() {
+  sessionStorage.setItem(GUEST_KEY, "true");
+}
+
+export function isGuest() {
+  return sessionStorage.getItem(GUEST_KEY) === "true";
+}
+
 export function logout() {
+  sessionStorage.removeItem(GUEST_KEY);
   localStorage.removeItem(TOKEN_KEY);
   localStorage.removeItem("movietime_current_user");
 }

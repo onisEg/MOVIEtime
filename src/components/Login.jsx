@@ -1,10 +1,10 @@
 import "../css/Register&Login.css";
 import React, { useState } from "react";
-import { login, DEMO_USER } from "../services/auth";
+import { enterAsGuest, login, DEMO_USER } from "../services/auth";
 import { useNavigate } from "react-router-dom";
 import Joi from "joi";
 
-export default function Login(props) {
+export default function Login() {
   let navigate = useNavigate();
 
   const [isLoading, setLoading] = useState(false);
@@ -42,7 +42,6 @@ export default function Login(props) {
       try {
         const data = await login(user);
         if (data.status === "success") {
-          props.saveUserData();
           navigate("/home");
         } else {
           setError(data.message);
@@ -116,6 +115,17 @@ export default function Login(props) {
                     )}
                   </button>
                 </form>
+                <button
+                  type="button"
+                  className="btn btn-outline-light w-100 rounded-pill mt-3"
+                  disabled={isLoading}
+                  onClick={() => {
+                    enterAsGuest();
+                    navigate("/home", { replace: true });
+                  }}
+                >
+                  Enter as a guest
+                </button>
               </div>
             </div>
           </div>

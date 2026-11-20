@@ -22,7 +22,7 @@ export default function Navbar(props) {
           </button>
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-              {props.userData ? (
+              {props.canBrowse ? (
                 <>
                   <li className="nav-item">
                     <Link className="nav-link" to="home">
@@ -62,10 +62,10 @@ export default function Navbar(props) {
                 <i className="fa-brands fa-lg mx-1 fa-github"></i>
                 <i className="fa-brands fa-lg mx-1 fa-discord"></i>
               </li>
-              {props.userData ? (
+              {props.canBrowse ? (
                 <li className="nav-item">
                   <button type="button" onClick={props.logOut} className="nav-link btn btn-link">
-                    logout
+                    {props.guest ? "Exit guest mode" : "logout"}
                   </button>
                 </li>
               ) : (
