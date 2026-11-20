@@ -1,6 +1,6 @@
 import "../css/Register&Login.css";
 import React, { useState } from "react";
-import { enterAsGuest, login, DEMO_USER } from "../services/auth";
+import { login, DEMO_USER } from "../services/auth";
 import { useNavigate } from "react-router-dom";
 import Joi from "joi";
 
@@ -42,7 +42,7 @@ export default function Login() {
       try {
         const data = await login(user);
         if (data.status === "success") {
-          navigate("/home");
+          navigate("/");
         } else {
           setError(data.message);
         }
@@ -120,8 +120,7 @@ export default function Login() {
                   className="btn btn-outline-light w-100 rounded-pill mt-3"
                   disabled={isLoading}
                   onClick={() => {
-                    enterAsGuest();
-                    navigate("/home", { replace: true });
+                    navigate("/", { replace: true });
                   }}
                 >
                   Enter as a guest

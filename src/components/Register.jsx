@@ -86,7 +86,7 @@ export default function Register() {
         <div className="col-md-5 col-sm-12 form rounded d-flex align-item-center my-5 py-5 ">
           <div className="container d-flex align-item-center ">
             <div>
-              <h2>Join Over 52 Million Designer from around the world</h2>
+              <h2>Create your SceneShelf account</h2>
               <p>
                 Courses are designed in a way that they are easy to follow,
                 latest in market, provide you support for questions and can earn

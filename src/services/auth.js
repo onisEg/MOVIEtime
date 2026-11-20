@@ -74,14 +74,6 @@ export async function login({ username, password }) {
   return { status: "success", username: user.username };
 }
 
-export function enterAsGuest() {
-  sessionStorage.setItem(GUEST_KEY, "true");
-}
-
-export function isGuest() {
-  return sessionStorage.getItem(GUEST_KEY) === "true";
-}
-
 export function logout() {
   sessionStorage.removeItem(GUEST_KEY);
   localStorage.removeItem(TOKEN_KEY);

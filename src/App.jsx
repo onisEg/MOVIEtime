@@ -11,19 +11,14 @@ import Register from "./components/Register";
 import Notfound from "./components/Notfound";
 import MovieDetalis from "./components/MovieDetalis";
 import Movies from "./components/Movies";
-import { getToken, isGuest, logout } from "./services/auth";
-
-// Defined outside App so it isn't re-created on every render
-function BrowseRoute({ children }) {
-  return getToken() || isGuest() ? children : <Navigate to="/login" replace />;
-}
+import { getToken, logout } from "./services/auth";
 
 function GuestRoute({ children }) {
   return getToken() ? <Navigate to="/home" replace /> : children;
 }
 
 const browsePages = [
-  { path: "/", element: <Home /> },
+  { path: "/", element: <Movies /> },
   { path: "home", element: <Home /> },
   { path: "collections", element: <Collections /> },
   { path: "movies", element: <Movies /> },
@@ -35,23 +30,22 @@ const browsePages = [
 function App() {
   const navigate = useNavigate();
   const signedIn = Boolean(getToken());
-  const guest = !signedIn && isGuest();
 
   function logOut() {
     logout();
-    navigate("/login");
+    navigate("/");
   }
 
   return (
     <div className="container-fluid">
-      <Navbar logOut={logOut} canBrowse={signedIn || guest} guest={guest} />
+      <Navbar logOut={logOut} signedIn={signedIn} />
       <div className="container pb-5">
         <Routes>
           {browsePages.map(({ path, element }) => (
             <Route
               key={path}
               path={path}
-              element={<BrowseRoute>{element}</BrowseRoute>}
+              element={element}
             />
           ))}
           <Route

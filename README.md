@@ -1,4 +1,4 @@
-# 🎬 MOVIEtime
+# 🎬 SceneShelf
 
 A movie discovery app built with **React** and the **TMDB API**. Browse trending and popular movies, TV shows and people, and open any movie to see its rating, runtime, genres and overview.
 
@@ -10,7 +10,7 @@ A movie discovery app built with **React** and the **TMDB API**. Browse trending
 
 ## Try it
 
-Log in with the demo account, or create your own:
+Open the app to browse popular movies. Use Login or Register in the header for an optional account. Demo credentials:
 
 | Username | Password |
 |---|---|
@@ -22,7 +22,7 @@ Log in with the demo account, or create your own:
 - **Collections** — trending movies, TV shows and people of the week.
 - **Movies / TV / People** — popular lists with pagination.
 - **Movie details** — rating, year, genres, runtime, overview and poster.
-- **Auth** — register and login with Joi validation; all pages are protected and redirect to login.
+- **Auth** — register and login with Joi validation; catalog and detail pages are public.
 - **Responsive** poster grids (2 columns on phones up to 6 on desktop), loading and error states, 404 page.
 
 > **About the auth:** the app originally used a custom WordPress REST endpoint that is no longer online.
