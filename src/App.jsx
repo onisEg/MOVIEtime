@@ -18,7 +18,7 @@ function GuestRoute({ children }) {
 }
 
 const browsePages = [
-  { path: "/", element: <Navigate to="/home" replace /> },
+  { path: "/", element: <Home /> },
   { path: "home", element: <Home /> },
   { path: "collections", element: <Collections /> },
   { path: "movies", element: <Movies /> },

@@ -1,5 +1,5 @@
 import { fireEvent, render, screen } from "@testing-library/react";
-import { MemoryRouter } from "react-router-dom";
+import { BrowserRouter, MemoryRouter } from "react-router-dom";
 import App from "./App";
 
 jest.mock("./api/tmdb", () => ({
@@ -30,4 +30,17 @@ test("a visitor can open and reload a direct movie link", async () => {
   firstVisit.unmount();
   directLink();
   expect(await screen.findByRole("heading", { name: "Direct movie" })).toBeVisible();
+});
+
+test("Home uses /home and the brand returns to /", async () => {
+  window.history.replaceState(null, "", "/");
+  render(<BrowserRouter><App /></BrowserRouter>);
+  expect(await screen.findByRole("heading", { name: "Featured movie" })).toBeVisible();
+  expect(window.location.pathname).toBe("/");
+  fireEvent.click(screen.getByRole("link", { name: "Home" }));
+  expect(window.location.pathname).toBe("/home");
+  fireEvent.click(screen.getByRole("link", { name: "SceneShelf" }));
+  expect(window.location.pathname).toBe("/");
+  expect(window.location.hash).toBe("");
+  expect(await screen.findByRole("heading", { name: "Featured movie" })).toBeVisible();
 });
